@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        *{
+                margin: 0;
+                padding: 0;
+                font-family: 'poppins', sans-serif;
+                box-sizing: border-box;
+            }
+            .container{
+                width: 100%;
+                height: 100vh;
+                background: #333;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .music-player{
+                background: #fce17d;
+                width: 400px;
+                padding: 25px 35px;
+                text-align: center;
+                border-radius: 10%;
+            }
+            nav{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 30px;
+            }
+            nav .circle{
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                background: #fff;
+                color: #f3323f;
+                box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+            .song-img{
+                width: 200px;
+                border-radius: 50%;
+                border: 5px solid rgb(255, 174, 0);
+                box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);
+                margin-bottom: 30px;
+            }
+            .music-player h1{
+                font-family: "papyrus", fantasy;
+                font-weight: bold;
+                font-size: 40px;
+                color: #ff8800;
+                margin-top: 10px;
+
+            }
+            .music-player p{
+                font-size: 25px;
+                font-weight: bold;
+                font-family: "papyrus", fantasy;
+                color: rgb(255, 174, 0);
+            }
+            #progress{
+                -webkit-appearance: none;
+                width: 100%;
+                height: 6px;
+                background: #ff8800;
+                border-radius: 4px;
+                cursor: pointer;
+                margin: 40px 0;
+            }
+            #progress::-webkit-slider-thumb{
+                -webkit-appearance: none;
+                background: #ff8800;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border:8px solid rgb(255, 174, 0);
+                box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);
+            }
+        
+        .controls div:nth-child(2){
+            color: red;
+            transform: scale(1.5);
+            background: #fc8eac;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .controls div {
+            width: 60px;
+            height: 60px;
+            margin: 20px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: rgb(255, 174, 0);
+            box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/ebe8da84e9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="music-player">
+            <nav>
+                <div class="circle">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </div>  
+                <div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+            <img src="Main/heart2.png" class="song-img">
+            <h1>I Love You</h1>
+            <p></p>
+            <audio id="audio" >
+                <source src="Main/song.mp3" type="audio/mpeg">
+            </audio>
+            <input type="range" value="0" id="progress">
+
+            <div class="controls">
+                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="playPause()"><i class="fa-solid fa-heart" id="ctrlicon"></i></div>
+                <div><i class="fa-solid fa-forward"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let progress = document.getElementById("progress");
+        let audio = document.getElementById("audio");
+        let ctrlIcon = document.getElementById("ctrlicon");
+
+        audio.onloadedmetadata = function (){
+            progress.max = audio.duration;
+            progress.value = audio.currentTime;
+        }
+
+        setInterval(() => {
+            progress.value = audio.currentTime;
+        }, 500);
+
+        progress.onchange = function(){
+            audio.play();
+            audio.currentTime = progress.value;
+            ctrlIcon.classList.add("fa-heart-pulse");
+            ctrlIcon.classList.remove("fa-heart");
+        }
+
+        function playPause() {
+            if (ctrlIcon.classList.contains("fa-heart-pulse")) {
+                audio.pause();
+                ctrlIcon.classList.remove("fa-heart-pulse");
+                ctrlIcon.classList.add("fa-heart");
+            } else {
+                audio.play();
+                ctrlIcon.classList.add("fa-heart-pulse");
+                ctrlIcon.classList.remove("fa-heart");
+            }
+        }
+    </script>
+</body>
+</html>
